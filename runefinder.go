@@ -26,6 +26,11 @@ func progress(done *bool) {
 func getUcdFile(fileName string) {
 	url := ucdBaseUrl + ucdFileName
 	fmt.Printf("%s not found\nretrieving from %s\n", ucdFileName, url)
+	done := false
+	go progress(&done)
+	defer func() {
+		done = true
+	}()
 	response, err := http.Get(url)
 	if err != nil {
 		panic(err)
@@ -44,10 +49,7 @@ func getUcdFile(fileName string) {
 
 func loadIndex(fileName string) (map[string][]rune, map[rune]string) {
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
-		done := false
-		go progress(&done)
 		getUcdFile(fileName)
-		done = true
 	}
 	content, err := ioutil.ReadFile(fileName)
 	if err != nil {
