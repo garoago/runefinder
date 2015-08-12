@@ -60,12 +60,12 @@ func loadIndex(fileName string) (map[string][]rune, map[rune]string) {
 	names := make(map[rune]string)
 
 	for _, line := range lines {
-		var code rune
+		var uchar rune
 		fields := strings.Split(line, ";")
 		if len(fields) >= 2 {
 			code64, _ := strconv.ParseInt(fields[0], 16, 0)
-			code = rune(code64)
-			names[code] = fields[1]
+			uchar = rune(code64)
+			names[uchar] = fields[1]
 			for _, word := range strings.Split(fields[1], " ") {
 				var entries []rune
 				if len(index[word]) < 1 {
@@ -73,7 +73,7 @@ func loadIndex(fileName string) (map[string][]rune, map[rune]string) {
 				} else {
 					entries = index[word]
 				}
-				index[word] = append(entries, code)
+				index[word] = append(entries, uchar)
 			}
 		}
 
@@ -90,8 +90,8 @@ func main() {
 	}
 
 	word := strings.ToUpper(os.Args[1])
-	for _, code := range index[word] {
-		fmt.Printf("%c\t%s\n", code, names[code])
+	for _, uchar := range index[word] {
+		fmt.Printf("U+%-5X %c\t%s\n", uchar, uchar, names[uchar])
 	}
 
 }
