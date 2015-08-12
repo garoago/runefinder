@@ -15,8 +15,8 @@ import (
 const ucdFileName = "UnicodeData.txt"
 const ucdBaseUrl = "http://www.unicode.org/Public/UCD/latest/ucd/"
 
-func progressDisplay(done *bool) {
-	for !*done {
+func progressDisplay(running *bool) {
+	for *running {
 		fmt.Print(".")
 		time.Sleep(150 * time.Millisecond)
 	}
@@ -26,10 +26,10 @@ func progressDisplay(done *bool) {
 func getUcdFile(fileName string) {
 	url := ucdBaseUrl + ucdFileName
 	fmt.Printf("%s not found\nretrieving from %s\n", ucdFileName, url)
-	done := false
-	go progressDisplay(&done)
+	running := true
+	go progressDisplay(&running)
 	defer func() {
-		done = true
+		running = false
 	}()
 	response, err := http.Get(url)
 	if err != nil {
@@ -47,7 +47,7 @@ func getUcdFile(fileName string) {
 	file.Close()
 }
 
-func loadIndex(fileName string) (map[string][]rune, map[rune]string) {
+func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		getUcdFile(fileName)
 	}
@@ -86,7 +86,7 @@ func loadIndex(fileName string) (map[string][]rune, map[rune]string) {
 func main() {
 	dir, _ := os.Getwd()
 	path := path.Join(dir, ucdFileName)
-	index, names := loadIndex(path)
+	index, names := buildIndex(path)
 	if len(os.Args) != 2 {
 		fmt.Println("Usage:  runefinder <word>\texample: runefinder cat")
 		os.Exit(1)
