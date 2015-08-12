@@ -24,4 +24,4 @@ U+1F640 🙀 	WEARY CAT FACE
 
 This is a port of the Python [charfinder](https://github.com/fluentpython/example-code/tree/master/18-asyncio/charfinder) utilities created for the [Fluent Python](http://shop.oreilly.com/product/0636920032519.do) book. 
 
-Go development started with [@alexandre](https://github.com/alexandre/) Souza, Luciano [@ramalho](https://github.com/ramalho/), João Martins[@jcmartins](https://github.com/jcmartins) and Michael Howard at a [Garoa Gophers](https://garoa.net.br/wiki/Garoa_Gophers) meeting.
+Go development started with [@alexandre](https://github.com/alexandre/) Souza, Luciano [@ramalho](https://github.com/ramalho/), João Martins [@jcmartins](https://github.com/jcmartins) and Michael Howard at a [Garoa Gophers](https://garoa.net.br/wiki/Garoa_Gophers) meeting.
