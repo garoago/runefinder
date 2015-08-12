@@ -4,7 +4,7 @@ Utility to find Unicode characters by name
 Sample use:
 
 ```
-$ runefinder chess
+$ runefinder cat
 U+A2B6  ꊶ	YI SYLLABLE CAT
 U+101EC 𐇬	PHAISTOS DISC SIGN CAT
 U+1F408 🐈	CAT
