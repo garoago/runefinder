@@ -19,3 +19,7 @@ U+1F63E 😾 	POUTING CAT FACE
 U+1F63F 😿 	CRYING CAT FACE
 U+1F640 🙀 	WEARY CAT FACE
 ```
+
+## History
+
+This is a port of the Python [charfinder](https://github.com/fluentpython/example-code/tree/master/18-asyncio/charfinder) utilities created for the [Fluent Python](http://shop.oreilly.com/product/0636920032519.do) book.
