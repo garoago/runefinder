@@ -91,7 +91,7 @@ func main() {
 
 	word := strings.ToUpper(os.Args[1])
 	for _, code := range index[word] {
-		fmt.Printf("%c %s\n", code, names[code])
+		fmt.Printf("%c\t%s\n", code, names[code])
 	}
 
 }
