@@ -86,6 +86,7 @@ func main() {
 	path := path.Join(dir, ucdFileName)
 	index, names := loadIndex(path)
 	if len(os.Args) != 2 {
+		fmt.Println("Usage:  runefinder <word>\texample: runefinder cat")
 		os.Exit(1)
 	}
 
