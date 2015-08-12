@@ -15,10 +15,10 @@ import (
 const ucdFileName = "UnicodeData.txt"
 const ucdBaseUrl = "http://www.unicode.org/Public/UCD/latest/ucd/"
 
-func progress(done *bool) {
+func progressDisplay(done *bool) {
 	for !*done {
 		fmt.Print(".")
-		time.Sleep(200 * time.Millisecond)
+		time.Sleep(150 * time.Millisecond)
 	}
 	fmt.Println()
 }
@@ -27,7 +27,7 @@ func getUcdFile(fileName string) {
 	url := ucdBaseUrl + ucdFileName
 	fmt.Printf("%s not found\nretrieving from %s\n", ucdFileName, url)
 	done := false
-	go progress(&done)
+	go progressDisplay(&done)
 	defer func() {
 		done = true
 	}()
