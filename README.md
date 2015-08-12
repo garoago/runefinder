@@ -1,2 +1,20 @@
 # runefinder
 Utility to find Unicode characters by name
+
+Sample use:
+
+```
+$ runefinder chess
+U+2654  ♔    WHITE CHESS KING
+U+2655  ♕    WHITE CHESS QUEEN
+U+2656  ♖    WHITE CHESS ROOK
+U+2657  ♗    WHITE CHESS BISHOP
+U+2658  ♘    WHITE CHESS KNIGHT
+U+2659  ♙    WHITE CHESS PAWN
+U+265A  ♚    BLACK CHESS KING
+U+265B  ♛    BLACK CHESS QUEEN
+U+265C  ♜    BLACK CHESS ROOK
+U+265D  ♝    BLACK CHESS BISHOP
+U+265E  ♞    BLACK CHESS KNIGHT
+U+265F  ♟    BLACK CHESS PAWN
+```
