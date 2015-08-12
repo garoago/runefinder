@@ -92,7 +92,7 @@ func main() {
 
 	word := strings.ToUpper(os.Args[1])
 	for _, uchar := range index[word] {
-		fmt.Printf("U+%-5X %c\t%s\n", uchar, uchar, names[uchar])
+		fmt.Printf("U+%-5X %c \t%s\n", uchar, uchar, names[uchar])
 	}
 
 }
