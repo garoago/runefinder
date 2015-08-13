@@ -1,6 +1,7 @@
 package main
 
 import (
+	//"encoding/gob"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -12,6 +13,7 @@ import (
 	"time"
 )
 
+const indexFileName = "runefinder-index.gob"
 const ucdFileName = "UnicodeData.txt"
 const ucdBaseUrl = "http://www.unicode.org/Public/UCD/latest/ucd/"
 
@@ -23,7 +25,7 @@ func progressDisplay(running *bool) {
 	fmt.Println()
 }
 
-func getUcdFile(fileName string) {
+func getUcdFile(ucdPath string) {
 	url := ucdBaseUrl + ucdFileName
 	fmt.Printf("%s not found\nretrieving from %s\n", ucdFileName, url)
 	running := true
@@ -36,7 +38,7 @@ func getUcdFile(fileName string) {
 		panic(err)
 	}
 	defer response.Body.Close()
-	file, err := os.Create(fileName)
+	file, err := os.Create(ucdPath)
 	if err != nil {
 		panic(err)
 	}
@@ -47,11 +49,11 @@ func getUcdFile(fileName string) {
 	file.Close()
 }
 
-func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
-	if _, err := os.Stat(fileName); os.IsNotExist(err) {
-		getUcdFile(fileName)
+func buildIndex(ucdPath string) (map[string][]rune, map[rune]string) {
+	if _, err := os.Stat(ucdPath); os.IsNotExist(err) {
+		getUcdFile(ucdPath)
 	}
-	content, err := ioutil.ReadFile(fileName)
+	content, err := ioutil.ReadFile(ucdPath)
 	if err != nil {
 		panic(err)
 	}
@@ -83,10 +85,19 @@ func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
 	return index, names
 }
 
-func main() {
+func loadIndex() (map[string][]rune, map[rune]string) {
 	dir, _ := os.Getwd()
-	path := path.Join(dir, ucdFileName)
-	index, names := buildIndex(path)
+	indexPath := path.Join(dir, indexFileName)
+	if _, err := os.Stat(indexPath); os.IsNotExist(err) {
+		fmt.Print("Index not found")
+		ucdPath := path.Join(dir, ucdFileName)
+		index, names := buildIndex(ucdPath)
+	}
+	return index, names
+}
+
+func main() {
+	index, names := loadIndex()
 	if len(os.Args) != 2 {
 		fmt.Println("Usage:  runefinder <word>\texample: runefinder cat")
 		os.Exit(1)
