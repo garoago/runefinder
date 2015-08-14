@@ -84,17 +84,25 @@ func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
 }
 
 func main() {
-	dir, _ := os.Getwd()
-	path := path.Join(dir, ucdFileName)
-	index, names := buildIndex(path)
 	if len(os.Args) != 2 {
 		fmt.Println("Usage:  runefinder <word>\texample: runefinder cat")
 		os.Exit(1)
 	}
-
 	word := strings.ToUpper(os.Args[1])
+
+	dir, _ := os.Getwd()
+	path := path.Join(dir, ucdFileName)
+	index, names := buildIndex(path)
+
+	count := 0
+	format := "U+%04X  %c \t%s\n"
 	for _, uchar := range index[word] {
-		fmt.Printf("U+%-5X %c \t%s\n", uchar, uchar, names[uchar])
+		if uchar > 0xFFFF {
+			format = "U+%5X %c \t%s\n"
+		}
+		fmt.Printf(format, uchar, uchar, names[uchar])
+		count++
 	}
+	fmt.Printf("%d characters found\n", count)
 
 }
