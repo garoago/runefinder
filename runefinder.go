@@ -62,8 +62,8 @@ func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
 
 	lines := strings.Split(string(content), "\n")
 
-	index := make(map[string][]rune)
-	names := make(map[rune]string)
+	index := map[string][]rune{}
+	names := map[rune]string{}
 
 	for _, line := range lines {
 		var uchar rune
@@ -72,6 +72,7 @@ func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
 			code64, _ := strconv.ParseInt(fields[0], 16, 0)
 			uchar = rune(code64)
 			names[uchar] = fields[1]
+			// fmt.Printf("%#v", index)
 			for _, word := range strings.Split(fields[1], " ") {
 				var entries []rune
 				if len(index[word]) < 1 {
@@ -87,12 +88,20 @@ func buildIndex(fileName string) (map[string][]rune, map[rune]string) {
 	return index, names
 }
 
+func findRunes(query string, index map[string][]rune) []rune {
+	found := []rune{}
+	for _, uchar := range index[strings.ToUpper(query)] {
+		found = append(found, uchar)
+	}
+	return found
+}
+
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Println("Usage:  runefinder <word>\texample: runefinder cat")
 		os.Exit(1)
 	}
-	word := strings.ToUpper(os.Args[1])
+	word := os.Args[1]
 
 	dir, _ := os.Getwd()
 	path := path.Join(dir, ucdFileName)
@@ -100,7 +109,7 @@ func main() {
 
 	count := 0
 	format := "U+%04X  %c \t%s\n"
-	for _, uchar := range index[word] {
+	for _, uchar := range findRunes(word, index) {
 		if uchar > 0xFFFF {
 			format = "U+%5X %c \t%s\n"
 		}
